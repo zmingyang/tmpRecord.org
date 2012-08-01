@@ -1,0 +1,484 @@
+* PEOPLE NAME
+liu zi tao: lab
+* emacs
+(setq truncate-lines nil)
+(setq find-file-wildcards nil)
+(setq x-select-enable-clipboard t)
+fsl_imx6-rt-glibc-std-2012-07-04
+* SHELL
+sed '5s/^.*$/xxxxx/'  file
+sed '809s/^.*$/bootargs = "root=/dev/nfs rw nfsroot=128.224.178.20:/export/pxeboot/vlm-boards/21262/rootfs,nfsvers=3 ip=128.224.178.149:128.224.178.1:128.224.178.1:255.255.254.0:xlp:eth6:off console=ttyS0,115200";/'  build/linux/arch/mips/boot/dts/xlp316.dts
+
+sed '809s/^.*$/bootargs = "c";/'  build/linux/arch/mips/boot/dts/xlp316.dts
+809s@^.*100 101 102 xlp316.dtsbootargs = "root=/dev/nfs rw nfsroot:100:/export/pxeboot/vlm-boards/101/rootfs,nfsvers=3 ip=102:128.224.178.1:128.224.178.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200;"@g
+** tmux
+set -g terminal-overrides 'xterm*:smcup@:rmcup@'
+* CQ
+** Requirement
+| Requirement ID | BSP name                                                |
+|----------------+---------------------------------------------------------|
+| WIND00332069   | imx6                                                    |
+| WIND00333484   | Xilinx Zynq                                             |
+| WIND00361697   | xilinx_zc702                                            |
+| WIND00349174   | nlm_xlp_64_be                                                        |
+
+** Defect
+| Requiremnet ID | DefectID     | title                   |
+|----------------+--------------+-------------------------|
+| WIND00332069   | WIND00360055 | README defect           |
+| WIND00332069   | WIND00361583 | compile 4.3 imx6 error. |
+| WIND00349174   | WIND00364441 |                         |
+| WIND00349174   | WIND00364441 |                         |
+| WIND00349174   | WIND00365094 |                         |
+| WIND00349174   | WIND00366181 |                         |
+
+
+* INFO
+** DTB
+vlm-boards/21261/kernel
+
+vlm-boards/21261/dtb
+
+
+vim build/linux/arch/mips/boot/dts/xlp316.dts
+
+                /*bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/21261/rootfs,nfsvers=3 ip=128.224.165.110:128.224.165.1:128.224.165.1:255.255.254.0:xlp832-B1:eth4:off console=ttyS0,115200";*/
+                /*bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/21261/rootfs,nfsvers=3 ip=128.224.165.110:128.224.165.1:128.224.165.1:255.255.254.0:xlp832-B1:eth0:off console=ttyS0,115200";*/
+                bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/21261/rootfs,nfsvers=3 ip=128.224.165.110:128.224.165.1:128.224.165.1:255.255.254.0:xlp832-B1:eth6:off console=ttyS0,115200";
+                /*bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/21261/rootfs,nfsvers=3 ip=128.224.165.110:128.224.165.1:128.224.165.1:255.255.254.0:xlp832-B1:eth5:off console=ttyS0,115200";*/
+                /*bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/20656/rootfs,nfsvers=3 ip=128.224.165.248:128.224.165.20:128.224.165.1:255.255.254.0:xlp832-B0-20656:eth6:off console=ttyS0,115200";*/
+                /*bootargs = "root=/dev/nfs rw nfsroot=128.224.178.20:/export/pxeboot/vlm-boards/21262/rootfs,nfsvers=3 ip=128.224.178.149:128.224.178.1:128.224.178.1:255.255.254.0:xlp:eth6:off console=ttyS0,115200";*/
+
+
+make -C build linux.xlp316.dtb
+
+** SerialSRQ 
+send brk
+** server address
+mzhao1@pek-lpgbuild6.wrs.com
+/ssh:mzhao1@pek-lpgbuild6.wrs.com:/folk/wco-feo-alliance
+*** testcase
+ssh:mzhao1@pek-lpgbuild6.wrs.com:/folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux
+/folk/mzhao1/imx6/wrll-runtime-testing/dist/bts/src/testcases
+*** tmfast testcase
+ssh:mzhao1@pek-lpgbuild6.wrs.com:/lpg-build/cdc/tmfast_deploy/wrlinuxbasic-5.0/fast-lpd/testcases/build-tests/make_fs/make_fs.py 
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/ 
+*** tmfast server 
+zhaomingyang-optiplex-990.corp.ad.wrs.com
+** test log address:
+/ssh:mzhao1@pek-lpgbuild6.wrs.com:/lpg-build/cdc/publiclog/wrl43/async/WIND00332069
+/lpg-build/cdc/publiclog/wrl43/async/nlm_xlp_64_be.log/stdkernel
+/lpg-build/cdc/publiclog/wrl43/async/nlm_xlp_64_be.log/cglkernel
+** runtime case
+/folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux
+/folk/mzhao1/imx6/wrll-runtime-testing/dist/bts/src/testcases/ 
+** mailbox
+http://cnc.exmail.qq.com/login
+zhaomy@faybee.com
+password equal gmail
+/net/pek-lpgbuild6/
+** windriver password
+mzhao1:wrlinux
+mzhao1:mzhao1
+** vlm
+getAttr 18729
+telnet 128.224.164.70 2011
+vlmstart &
+** screen shortkey
+screen -h 5000
+C-a ?	显示所有键绑定信息
+C-a w	显示所有窗口列表
+C-a C-a	切换到之前显示的窗口
+C-a c	创建一个新的运行shell的窗口并切换到该窗口
+C-a n	切换到下一个窗口
+C-a p	切换到前一个窗口(与C-a n相对)
+C-a 0..9	切换到窗口0..9
+C-a a	发送 C-a到当前窗口
+C-a d	暂时断开screen会话
+C-a k	杀掉当前窗口
+C-a [	进入拷贝/回滚模式
+
+* TEST
+** active screen (imx6)
+echo 0 > /sys/devices/platform/mxc_sdc_fb.0/graphics/fb0/blank
+
+** KGDBOC
+./agent-proxy 4440^4441 128.224.164.81 2011 &
+echo "ttyS0,115200" >/sys/module/kgdboc/parameters/kgdboc;echo "g" >/proc/sysrq-trigger  
+
+** KGDPROBE
+modprobe kgdboe kgdboe=@128.224.158.254/eth0,@128.224.162.12/ 
+modprobe kgdboe kgdboe=@128.224.163.153/eth0,@128.224.162.12/ 
+
+./host-cross/arm-wrs-linux-gnueabi/bin/arm-wrs-linux-gnueabi-armv7at2vfpneon-glibc_std-gdb export/fsl_imx6-vmlinux-symbols-WR4.3.0.0_standard 
+target remote udp:128.224.158.254:6443 
+** KFTP
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/startWorkbench.sh
+
+rm raw_packet_socket_output.sh
+host-cross/arm-wrs-linux-gnueabi/sysroot/
+** gdbserver test
+/folk/twang0/git/wrll-bsp-testing/scripts/gdbserver.py -p /buildarea2/mzhao1/WIND00332069-stdkernel-ltp -t 128.224.158.254 -l ./
+
+/folk/twang0/git/wrll-bsp-testing/scripts/gdbserver.py -p /buildarea2/mzhao1-nlm_xlp_64_be/stdk-stdfs-ltp -t 128.224.165.210 -l ./
+** workbench test
+ lpg-build/cdc/bsp/qf-test-3.2.1/qftesPATH
+
+/lpg-build/cdc/bsp/qf-test-3.2.1/qftest/oprofile-43.sh 128.224.158.254 /buildarea2/mzhao1/WIND00332069-rtkernel-workbench/ /net/128.224.158.206/nfsroot/rtk-stdfs-workbench/
+
+** kgdb test
+
+modprobe kgdboe kgdboe=@128.224.158.254/eth0,@128.224.162.12/
+
+host-cross/toolchain/x86-linux2/bin/arm-wrs-linux-gnueabi-gdb export/fsl_imx6-vmlinux-symbols-WR4.3.0.0_preempte_rt
+* COMPILE
+** make menuconfig
+make -C build linux.menuconfig
+make -C build linux.rebuild
+
+** imx6 compile
+*** make kerne
+make -C build linux.menuconfig
+make -C build linux.rebuild
+
+*** std kernle config
+****stdkernel****************************************************************************************************
+*stdkernel stdfs
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test  
+*
+*
+*workbench
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/analysis,feature/code_coverage,feature/wb-tools,cpu/arm_v6jel_vfp --enable-build=profiling
+*
+*toolchain
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/toolchain-test
+*
+*
+*stdkernle kftp
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/kernel-test
+*
+*stdkernel stdft ltp bts lmbench test
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test --enable-test=yes
+*
+*stdkernel smalldfs
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_small --enable-kernel=standard --enable-jobs=16 
+*
+*stdkernel uclibcfs
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=uclibc_small --enable-kernel=standard --enable-jobs=16
+*
+*stdkernel stdfs
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 
+*
+*stdkernle userspace
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=userspace-regression/regression-test
+*
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/system-test
+*** rt kernle config
+***rtkernel***************************************************************************************************
+*
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 
+*
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_small --enable-kernel=preempt_rt --enable-jobs=16 
+*
+*
+*
+*
+*rtkernel stdfs
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test
+*
+*rtkernle stdfs kftp test
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/kernel-test --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
+*
+*rtkernel stdft ltp bts lmbench test
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test --enable-test=yes
+*
+*toolchain
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/toolchain-test
+*
+*workbench
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/analysis,feature/code_coverage,feature/wb-tools --enable-build=profiling
+*
+*userspace
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=userspace-regression/regression-test
+*
+*
+*/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/system-test
+***********************************************************************************************************
+*|--------------------+--------------|
+*|                    | afaf         |
+*|                    | afdadfafdafd |
+*|--------------------+--------------|
+*| asafasfasfaadfasfd | asdfaf       |
+*|                    |              |
+*|--------------------+--------------|
+*
+** nlm_xlp_64_be compile
+*** std kernle config
+stdfs 
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test  
+
+stdfs kftp
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/kernel-test
+
+
+stdfs ltp bts lmbench test
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/bsp-test --enable-test=yes
+
+
+stdfs toolchain
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/toolchain-test
+
+
+stdfs workbench
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/analysis,feature/code_coverage,feature/wb-tools --enable-build=profiling
+
+stdfs userspace
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=userspace-regression/regression-test
+
+stdfs load-library
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/system-test
+
+small fs
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_small  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing
+
+| stdk-stdkfs-multicore-mips64_xlp    | cpu/mips64_xlp    | 
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux  
+
+
+| stdk-stdkfs-multicore-mips32_xlp    | cpu/mips32_xlp    |
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips32_xlp  --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux 
+
+
+*** cgl kernle config
+
+cglfs kftp
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl  --enable-jobs=16 --with-layer=/folk/mzhao1/316kftp/wrll-runtime-testing --with-template=feature/kernel-test
+
+
+cglfs ltp bts lmbench test
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/bsp-test --enable-test=yes
+
+
+cglfs toolchain
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/toolchain-test
+
+
+cglfs workbench
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/analysis,feature/code_coverage,feature/wb-tools --enable-build=profiling
+
+cglfs userspace
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=userspace-regression/regression-test
+
+cglfs load-library
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing  --with-template=feature/system-test
+
+small fs
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_small  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing
+
+| cglk-cglfs-multicore-mips64_xlp     | cpu/mips64_xlp    | 
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux  
+
+
+| cglk-cglfs-multicore-mips32_xlp     | cpu/mips32_xlp    |
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips32_xlp  --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux 
+
+
+
+* boot
+** imx6 boot
+*** std kernle boot
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=192.168.1.200::192.168.1.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 opeofile.timer=1
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-kftp,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+setenv bootargs console=ttymxc1,115200 root=/dev/mmcblk0p1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+
+
+amixer cset numid=1 1
+
+make -C build bts.distclean;make -C build bts
+
+*** rt kernel boot
+*******************************************************************************************************
+rt
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/rtk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
+
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/rtFS,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+*******************************************************************************************************
+
+** 316b0 boot
+128.224.165.210
+telnet 128.224.164.81 2011
+*** std kernle boot
+
+setenv serverip 128.224.158.206
+bootargs = "root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/316b0 ip=128.224.165.151:128.224.165.1:128.224.165.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200";
+
+bootargs = "root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/316a0l ip=128.224.165.151:128.224.165.1:128.224.165.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200";
+
+bootargs = "root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/316a0l ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200";
+bootargs = "root=/dev/sda1 rw console=ttyS0,115200";
+tftp 0xa800000078020000 128.224.158.206:/tftpboot/binaries/u-boot.bin
+setenv bootcmd "tftp 0xa800000060000000 kernel;tftp 0xffffffff80100000 dtb;bootelf 0xa800000060000000 - 0xffffffff80100000"
+
+tftp 0xa800000060000000 kernel;tftp 0xffffffff80100000 dtb;bootelf 0xa800000060000000 - 0xffffffff80100000
+tftp 0xa800000060000000 kernela0;tftp 0xffffffff80100000 dtba0;bootelf 0xa800000060000000 - 0xffffffff80100000
+tftp 0xa800000060000000 kernela0l;tftp 0xffffffff80100000 dtba0l;bootelf 0xa800000060000000 - 0xffffffff80100000
+
+tftp 0xffffffff80100000 xlp832/wr-d-316;tftp 0xa800000060000000 xlp832/wr-k;bootelf 0xa800000060000000 - 0xffffffff80100000
+
+
+amixer cset numid=1 1
+
+make -C build bts.distclean;make -C build bts
+
+ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1
+*** rt kernel boot
+*******************************************************************************************************
+rt
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/rtk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
+
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/rtFS,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+*******************************************************************************************************
+
+
+** full test case
+10GNIC  COMBOTEST EVTEST  GPIO  IPMI  MISC  PATA   PROVELOCK  SCU-S3    STRACE
+ACCELEROMETER  CPU-HOTPLUG  FAST-SYSCALL  HWRNG   IPv6   MMC   PCI  QBMAN   SENSORS  SyPI4
+bin CPUSETS   FLOATCONVERT  I2C   KGDBTS   MTD    PERFORMANCE   RAMFS    SERIALSYSRQ    USBBUS
+BOOTCHECK   DMA   FTRACE   IEEE1588  KMS   NETPERF  PKTGEN   RTC   SOFTWARE-RAID  USBHOST
+CAN   dTsec  GDB  INTERRUPT  KVM   OPROFILE  POWER-MANAGEMENT  RTTEST   SPI  WATCHDOG
+CF    ETHERNET   GDBSERVER   IO-expander  manual-demo  PAMU    PRAMFS   SATA  SRIO  WIRE1
+
+######################################################################################################
+
+* tmp info
+ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-helinux-a0.dtb" -i 1
+ldapps -m smpload -f /bin/crypto_app -d "./cglk-cglfs-64helinux.dtb" -i 1
+ldapps -m smpload -f /bin/hybrid_nae_app -d "./cglk-cglfs-64helinux.dtb" -i 1
+
+ldapps -m smpload -f /bin/regex_demo_app -d "./cglk-cglfs-helinux-a0.dtb" -i 1
+wait for 
+ldapps -m smpload -f /bin/poe_app -d "./cglk-cglfs-64helinux.dtb" -i 1
+ldapps -m smpload -f /bin/nae_app -d "./cglk-cglfs-64helinux.dtb" -i 1
+ldapps -m smpload -f /bin/regex_demo_app -d "./stdk-stdfs-helinux-a0.dtb" -i 1
+
+ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1
+
+
+
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-ccache=yes --enable-test --with-template=cpu/mips64_xlp,feature/hyperexec --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
+
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-ccache=yes --with-template=cpu/mips64_xlp,feature/hyperexec --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
+
+ /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
+
+mount -o nolock 128.224.158.206:/nfsroot/ /root/
+ldapps -m smpload -f /bin/hello_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1
+withtemplate=cpu/mips64_xlp
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/layers/bsps/wrll-nlm_xlp_64_be/templates/board/nlm_xlp_64_be
+? cpu/mips32_el
+? cpu/mips64_el_n32
+
+cpu/mips64_xlp ok
+cpu/mips32_xlp ok
+
+cpu/mips64_eb_n32
+cpu/mips64_el
+
+
+
+stdk-stdfs-kftp
+stdk-stdfs-ltp
+
+
+/folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux/nlm_xlp_64_be-bts.cfg
+
+10GNIC/           COMBOTEST/        EVTEST/       GPIO/       IPMI/      MISC/    PATA/             PROVELOCK/        SCU-S3/           STRACE/           
+ACCELEROMETER/    CPU-HOTPLUG/      FAST-SYSCALL/ HWRNG/      IPv6/      MMC/     PCI/              QBMAN/            SENSORS/          SyPI4/            
+bin/              CPUSETS/          FLOATCONVERT/ I2C/        KGDBTS/    MTD/     PERFORMANCE/      RAMFS/            SERIALSYSRQ/      USBBUS/           
+BOOTCHECK/        DMA/              FTRACE/       IEEE1588/   KMS/       NETPERF/ PKTGEN/           RTC/              SOFTWARE-RAID/    USBHOST/          
+CAN/              dTsec/            GDB/          INTERRUPT/  KVM/       OPROFILE POWER-MANAGEMENT/ RTTEST/           SPI/              WATCHDOG/         
+CF/               ETHERNET/         GDBSERVER/    IO-expander manual-dem PAMU/    PRAMFS/           SATA/             SRIO/             WIRE1/
+
+hugepage
+
+nlm_xlp_64_be board test case
+
+
+
+****standard kernel standard rootfs kftp**********************************************
+testcases/bsdjail                                                    [  PASS  ]
+testcases/cgroup                                                     [  PASS  ]
+testcases/dynamic-tick                                               [  PASS  ]
+testcases/fs                                                         [ FAILED ]
+testcases/ftrace                                                     [  PASS  ]
+testcases/hrt                                                        [  PASS  ]
+testcases/hugetlb                                                    [  PASS  ]
+testcases/kgdb                                                       [  PASS  ]
+testcases/lockapi                                                    [  PASS  ]
+testcases/lttng                                                      [  PASS  ]
+testcases/modprobe                                                   [  PASS  ]
+testcases/mpatrol-test                                               [  PASS  ]
+testcases/mutex_lock                                                 [  PASS  ]
+testcases/ocf                                                        [  PASS  ]
+testcases/oprofile-test                                              [  PASS  ]
+testcases/oscb                                                       [  PASS  ]
+testcases/perf-test                                                  [  PASS  ]
+testcases/pi-futex                                                   [  PASS  ]
+testcases/ptrace                                                     [ FAILED ]
+testcases/rb-futex                                                   [ FAILED ]
+testcases/tipc                                                       [ FAILED ]
+testcases/unionfs                                                    [  PASS  ]
+testcases/wrnote                                                     [  PASS  ]
+
+
+
+
+
+
+
+|new SATA test case
+ /runtest.sh
+	PASS	device format
+	PASS	minor io
+
+
+
+
+
+	PASS	huge io
+	FAIL	dmesg Call Trace check post case
+	Tests Passed	: 6
+	Tests Failed	: 1
+	Tests Skiped	: 0
+	Tests Manual	: 0
+	Total Tested	: 7
+root@xlp:/opt/bts/testcases/SATA> 
+root@xlp:/opt/bts/testcases/SATA> 
+root@xlp:/opt/bts/testcases/SATA> 
