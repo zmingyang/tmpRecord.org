@@ -1,26 +1,54 @@
 * PEOPLE NAME
 liu zi tao: lab
 * emacs
+color theme Blue Mood               Nelson Loyola <nloyola@yahoo.com>
 (setq truncate-lines nil)
 (setq find-file-wildcards nil)
 (setq x-select-enable-clipboard t)
-fsl_imx6-rt-glibc-std-2012-07-04
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t) 
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t) 
+(cdr (cdr '(message "hello%d" 1)))
+
+;; So the idea is that you copy/paste this code into your *scratch* buffer,
+;; hit C-j, and you have a working el-get.
+(url-retrieve
+ "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+ (lambda (s)
+   (end-of-buffer)
+   (eval-print-last-sexp)))
+   
+(setq el-get-sources
+      '(el-get
+      package
+      auto-complete
+      (:name magit
+      :after (lambda () (global-set-key (kbd "C-x C-z") 'magit-status))))
+      )
+(el-get)
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(el-get 'sync)
+
 * SHELL
+** command
 sed '5s/^.*$/xxxxx/'  file
 sed '809s/^.*$/bootargs = "root=/dev/nfs rw nfsroot=128.224.178.20:/export/pxeboot/vlm-boards/21262/rootfs,nfsvers=3 ip=128.224.178.149:128.224.178.1:128.224.178.1:255.255.254.0:xlp:eth6:off console=ttyS0,115200";/'  build/linux/arch/mips/boot/dts/xlp316.dts
 
 sed '809s/^.*$/bootargs = "c";/'  build/linux/arch/mips/boot/dts/xlp316.dts
 809s@^.*100 101 102 xlp316.dtsbootargs = "root=/dev/nfs rw nfsroot:100:/export/pxeboot/vlm-boards/101/rootfs,nfsvers=3 ip=102:128.224.178.1:128.224.178.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200;"@g
 ** tmux
+set-window-option -g mode-keys emacs
 set -g terminal-overrides 'xterm*:smcup@:rmcup@'
 * CQ
 ** Requirement
-| Requirement ID | BSP name                                                |
-|----------------+---------------------------------------------------------|
-| WIND00332069   | imx6                                                    |
-| WIND00333484   | Xilinx Zynq                                             |
-| WIND00361697   | xilinx_zc702                                            |
-| WIND00349174   | nlm_xlp_64_be                                                        |
+| Requirement ID | BSP name                            |
+|----------------+-------------------------------------|
+| WIND00332069   | imx6                                |
+| WIND00349174   | nlm_xlp_64_be                       |
+| WIND00333484   | NEW Xilinx Zynq ZC702 Board         |
+| WIND00361697   | BSP: UPDATE Xilinx Zynq ZC702 Board |
+|                |                                     |
+
+
 
 ** Defect
 | Requiremnet ID | DefectID     | title                   |
@@ -277,7 +305,7 @@ small fs
 
 | cglk-cglfs-multicore-mips64_xlp     | cpu/mips64_xlp    | 
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux  
-
+/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
 
 | cglk-cglfs-multicore-mips32_xlp     | cpu/mips32_xlp    |
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips32_xlp  --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux 
@@ -482,3 +510,51 @@ testcases/wrnote                                                     [  PASS  ]
 root@xlp:/opt/bts/testcases/SATA> 
 root@xlp:/opt/bts/testcases/SATA> 
 root@xlp:/opt/bts/testcases/SATA> 
+complete nlm_xlp_64_be 4.3 async FPTC
+
+defect:
+WIND00344962 	
+WIND00364441
+WIND00365094
+WIND00366129
+
+
+
+Prebuild Boot Login
+Source Build Boot Login
+Stripped Kernel Boo
+shutdown
+Configuration
+RPM Build
+Source Build
+README documentation test for BSP
+[BTS]Ethernet test script
+wrLtp
+KFTP
+Userspace Packages
+Load_Library
+Toolchain
+[obsolete]kgdbts
+[BTS]SerialSysrq
+[BTS]sched_clock implementation
+[BTS]bootcheck
+[BTS]float_convert
+BTS
+lmbench to validate bsp functionality
+wrPosix
+BTS]performance_test of dhrystone_whetstone
+L2cache
+I/O cache coherency
+GDB Server
+workbench KGDBoE (module_debug)
+workbench usermode auto test
+workbench analysis tool - codecoverage auto test
+workbench analysis tool - mpatrol auto test
+workbench analysis tool - oprofile auto test
+
+(0xffffffff81000000) Physical load address 
+(0xffffffffc1000000) Netlogic Linux kernel start address 
+
+
+email
+0xffffffff81000000,
