@@ -24,9 +24,24 @@ color theme Blue Mood               Nelson Loyola <nloyola@yahoo.com>
       (:name magit
       :after (lambda () (global-set-key (kbd "C-x C-z") 'magit-status))))
       )
-(el-get)
+
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(add-to-list 'load-path "~/.emacs.d/el-get/pymacs")
+(add-to-list 'load-path "~/.emacs.d/el-get/python-mode")
+(add-to-list 'load-path "~/.emacs.d/el-get/color-theme/")
+
 (el-get 'sync)
+(require 'el-get)
+(require 'pymacs)
+(require 'color-theme)
+;;(require 'python-mode)
+
+
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
 
 * SHELL
 ** command
@@ -38,17 +53,23 @@ sed '809s/^.*$/bootargs = "c";/'  build/linux/arch/mips/boot/dts/xlp316.dts
 ** tmux
 set-window-option -g mode-keys emacs
 set -g terminal-overrides 'xterm*:smcup@:rmcup@'
+* web
+sudo apt-get install apache2
+sudo apt-get install php5
+sudo apt-get install libapache2-mod-php5
+vim /var/www/testphp.php
+sudo vim /var/www/testphp.php
+sudo apt-get install mysql-server
+
 * CQ
 ** Requirement
 | Requirement ID | BSP name                            |
 |----------------+-------------------------------------|
 | WIND00332069   | imx6                                |
 | WIND00349174   | nlm_xlp_64_be                       |
-| WIND00333484   | NEW Xilinx Zynq ZC702 Board         |
+| WIND00333484   | xilinx_zc702                        |
 | WIND00361697   | BSP: UPDATE Xilinx Zynq ZC702 Board |
 |                |                                     |
-
-
 
 ** Defect
 | Requiremnet ID | DefectID     | title                   |
@@ -60,13 +81,32 @@ set -g terminal-overrides 'xterm*:smcup@:rmcup@'
 | WIND00349174   | WIND00365094 |                         |
 | WIND00349174   | WIND00366181 |                         |
 
+1 	  WIND00344962 	  [WRL4.3 Async][BSP: nlm_xlp_64_be ] The KFTP test hung on the pthread_mutex_robust_np test subcase. 	  Patched 
+2 	  WIND00345997 	  [BSP: nlm_xlp_64_be][xlp-832] kdump test can not boot successfully 	  Acknowledged 
+3 	  WIND00350711 	  [WRL4.3 Async][BSP: nlm_xlp_64_be ]The Little Endian kernel would hung on the KFTP mthread-lock-on-futex.sh test case, and sometimes print CallTrace information. 	  Acknowledged 
+4 	  WIND00363096 	  [WRL4.3 Async][BSP: nlm_xlp_64_be ] The XLP832-B1 target would hung on the "Freeing unused kernel memory: 236k freed". 	  Patched 
+5 	  WIND00363704 	  [WRL4.3 Async][ Update BSP: nlm_xlp_64_be ] The CPU-HOTPLUG test would hung up the XLP832-B1 target console. 	  Acknowledged 
+6 	  WIND00364441 	  compile 4.3 316b0 std kernel std fs error 	  Withdrawn 
+7 	  WIND00365094 	  README description not accurate 	  Acknowledged 
+8 	  WIND00366129 	  compile 4.3 nlm_xlp_64_be cgl kernel for kexec error. 	  Acknowledged 
+9 	  WIND00366181 	  [WRL4.3 Async] [Update BSP: nlm_xlp_64_be] The latest mips64_xlp CGL kernel always test failed on the LTP "proc01" test in the XLP832-B1 ICI target. 	  Patched 
+10 	  WIND00366691 	  [WRL4.3 Async][BSP: nlm_xlp_64_be ]The latest mips64_xlp CGL etlb and pagewalker kernel always hung on the LTP "ppoll01" test in the XLP832 target. 	  Acknowledged 
+11 	  WIND00367840 	  [WRL4.3 Async][BSP: nlm_xlp_64_be ] The XLP832 InterLaken could not normally work, and often link failed. 	  Acknowledged 
+12 	  WIND00367881 	  [WRL4.3 Async] [Update BSP: nlm_xlp_64_be ] The LTP "NUMA" test case always test failed on the XLP832-B1 ICI target.
+
+
+1 	  WIND00368977 	  [5.0 Async][BSP:xilinx_zc702] README descript NFS boot up ,wrote wrong address 	  Acknowledged 
+2 	  WIND00369278 	  [ WRL5.0 Robin ] [ Kernel ] The kgdbts could cause the kernel panic in the qemumips and qemuarma9 BSP booting . 	  Fixed 
+3 	  WIND00369931 	  [5.0 Async][BSP:BSP:xilinx_zc702] bts build error 	  New 
+4 	  WIND00371169 	  [5.0 Async][BSP:BSP:xilinx_zc702] ltp shmat01 test case fail 	  New 
+5 	  WIND00371205 	  [5.0 Async][BSP:BSP:xilinx_zc702] README 3.1.4 Boot from MMD/SD card, wrote address error 	  New 
+
+
+
+
 
 * INFO
 ** DTB
-vlm-boards/21261/kernel
-
-vlm-boards/21261/dtb
-
 
 vim build/linux/arch/mips/boot/dts/xlp316.dts
 
@@ -75,8 +115,10 @@ vim build/linux/arch/mips/boot/dts/xlp316.dts
                 bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/21261/rootfs,nfsvers=3 ip=128.224.165.110:128.224.165.1:128.224.165.1:255.255.254.0:xlp832-B1:eth6:off console=ttyS0,115200";
                 /*bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/21261/rootfs,nfsvers=3 ip=128.224.165.110:128.224.165.1:128.224.165.1:255.255.254.0:xlp832-B1:eth5:off console=ttyS0,115200";*/
                 /*bootargs = "root=/dev/nfs rw nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/20656/rootfs,nfsvers=3 ip=128.224.165.248:128.224.165.20:128.224.165.1:255.255.254.0:xlp832-B0-20656:eth6:off console=ttyS0,115200";*/
-                /*bootargs = "root=/dev/nfs rw nfsroot=128.224.178.20:/export/pxeboot/vlm-boards/21262/rootfs,nfsvers=3 ip=128.224.178.149:128.224.178.1:128.224.178.1:255.255.254.0:xlp:eth6:off console=ttyS0,115200";*/
 
+bootargs = "root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot//,nfsvers=3 ip=128.224.159.25:128.224.165.1:128.224.165.1:255.255.254.0:xlp:eth6:off console=ttyS0,115200";
+
+bootargs = "crashkernel=128M@63M root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/316a0l/,nfsvers=3 ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0:xlp:eth6:off console=ttyS0,115200";
 
 make -C build linux.xlp316.dtb
 
@@ -85,6 +127,7 @@ send brk
 ** server address
 mzhao1@pek-lpgbuild6.wrs.com
 /ssh:mzhao1@pek-lpgbuild6.wrs.com:/folk/wco-feo-alliance
+
 *** testcase
 ssh:mzhao1@pek-lpgbuild6.wrs.com:/folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux
 /folk/mzhao1/imx6/wrll-runtime-testing/dist/bts/src/testcases
@@ -97,6 +140,7 @@ zhaomingyang-optiplex-990.corp.ad.wrs.com
 /ssh:mzhao1@pek-lpgbuild6.wrs.com:/lpg-build/cdc/publiclog/wrl43/async/WIND00332069
 /lpg-build/cdc/publiclog/wrl43/async/nlm_xlp_64_be.log/stdkernel
 /lpg-build/cdc/publiclog/wrl43/async/nlm_xlp_64_be.log/cglkernel
+/ssh:mzhao1@pek-lpgbuild6.wrs.com:/lpg-build/cdc/publiclog/wrl50_async_robin/xilinx_zc702-WIND00333484
 ** runtime case
 /folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux
 /folk/mzhao1/imx6/wrll-runtime-testing/dist/bts/src/testcases/ 
@@ -159,17 +203,18 @@ host-cross/arm-wrs-linux-gnueabi/sysroot/
 modprobe kgdboe kgdboe=@128.224.158.254/eth0,@128.224.162.12/
 
 host-cross/toolchain/x86-linux2/bin/arm-wrs-linux-gnueabi-gdb export/fsl_imx6-vmlinux-symbols-WR4.3.0.0_preempte_rt
-* COMPILE
+
+* PROJECT
 ** make menuconfig
 make -C build linux.menuconfig
 make -C build linux.rebuild
 
-** imx6 compile
-*** make kerne
+** imx6
+*** imx6 compile
+**** make kernel
 make -C build linux.menuconfig
 make -C build linux.rebuild
-
-*** std kernle config
+**** std kernle config
 ****stdkernel****************************************************************************************************
 *stdkernel stdfs
 */lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test  
@@ -201,7 +246,7 @@ make -C build linux.rebuild
 */lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=userspace-regression/regression-test
 *
 */lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/system-test
-*** rt kernle config
+**** rt kernle config
 ***rtkernel***************************************************************************************************
 *
 */lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=fsl_imx6 --enable-rootfs=glibc_std --enable-kernel=preempt_rt --enable-jobs=16 
@@ -240,7 +285,45 @@ make -C build linux.rebuild
 *|                    |              |
 *|--------------------+--------------|
 *
-** nlm_xlp_64_be compile
+
+*** imx6 boot
+**** std kernle boot
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=192.168.1.200::192.168.1.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 opeofile.timer=1
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-kftp,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+setenv bootargs console=ttymxc1,115200 root=/dev/mmcblk0p1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+
+
+amixer cset numid=1 1
+
+make -C build bts.distclean;make -C build bts
+
+**** rt kernel boot
+*******************************************************************************************************
+rt
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/rtk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
+
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/rtFS,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
+
+*******************************************************************************************************
+
+** nlm_xlp_64_be
+/folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux/nlm_xlp_64_be-bts.cfg
 *** std kernle config
 stdfs 
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/bsp-test  
@@ -276,7 +359,6 @@ small fs
 | stdk-stdkfs-multicore-mips32_xlp    | cpu/mips32_xlp    |
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips32_xlp  --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux 
 
-
 *** cgl kernle config
 
 cglfs kftp
@@ -304,55 +386,14 @@ small fs
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_small  --enable-jobs=16 --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing
 
 | cglk-cglfs-multicore-mips64_xlp     | cpu/mips64_xlp    | 
-/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux  
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
 
 | cglk-cglfs-multicore-mips32_xlp     | cpu/mips32_xlp    |
 /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=cgl --enable-rootfs=glibc_cgl --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips32_xlp  --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux 
 
-
-
-* boot
-** imx6 boot
-*** std kernle boot
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=192.168.1.200::192.168.1.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 opeofile.timer=1
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-kftp,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.255.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-setenv bootargs console=ttymxc1,115200 root=/dev/mmcblk0p1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-
-
-amixer cset numid=1 1
-
-make -C build bts.distclean;make -C build bts
-
-*** rt kernel boot
-*******************************************************************************************************
-rt
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/rtk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
-
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/rtFS,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-*******************************************************************************************************
-
-** 316b0 boot
+**** 316b0 boot
 128.224.165.210
 telnet 128.224.164.81 2011
-*** std kernle boot
 
 setenv serverip 128.224.158.206
 bootargs = "root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/316b0 ip=128.224.165.151:128.224.165.1:128.224.165.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200";
@@ -360,6 +401,7 @@ bootargs = "root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/316b0 ip=128.224.1
 bootargs = "root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/316a0l ip=128.224.165.151:128.224.165.1:128.224.165.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200";
 
 bootargs = "root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/316a0l ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200";
+
 bootargs = "root=/dev/sda1 rw console=ttyS0,115200";
 tftp 0xa800000078020000 128.224.158.206:/tftpboot/binaries/u-boot.bin
 setenv bootcmd "tftp 0xa800000060000000 kernel;tftp 0xffffffff80100000 dtb;bootelf 0xa800000060000000 - 0xffffffff80100000"
@@ -371,41 +413,33 @@ tftp 0xa800000060000000 kernela0l;tftp 0xffffffff80100000 dtba0l;bootelf 0xa8000
 tftp 0xffffffff80100000 xlp832/wr-d-316;tftp 0xa800000060000000 xlp832/wr-k;bootelf 0xa800000060000000 - 0xffffffff80100000
 
 
+root=/dev/nfs rw nfsroot=192.168.0.1:/opt/rootf ip=192.168.0.2:192.168.0.1:192.168.0.1:255.255.254.0:xlp:eth0:off
+
+kexec -l ./cglk-cglfs-kexec-64-kernel --append="root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/316a0l ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200"
+
+
+kexec -p /guojian-kdump2-kernel-v1 --append="root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/316a0l ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0:xlp:eth0:off console=ttyS0,115200"
+
+
+kexec -p /guojian-kdump2-kernel-v2 --append="root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/316a0l/,nfsvers=3 ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0:xlp-kdump2:eth0:off console=ttyS0,115200"
+
+
+kexec -p /guojian-kdump2-kernel-v2 --append="root=/dev/sda1 rw console=ttyS0,115200"
+
+crashkernel=128M@63M root=/dev/sda1 rw console=ttyS0,115200 mem=176m@16m  mem=2560m@512m
+
+echo c > /proc/sysrq-trigger
+
+mdadm --create /dev/md0 --level=5 --raid-devices=2 --spare-devices=1 /dev/sd[a-c]
+
 amixer cset numid=1 1
 
 make -C build bts.distclean;make -C build bts
 
-ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1
-*** rt kernel boot
-*******************************************************************************************************
-rt
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/stdk-stdfs-workbench,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off
+ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1w
 
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/rtk-stdfs-workbench-v6,v3,tcp ip=128.224.158.254::128.224.158.1:255.255.254.0::eth0:off video=mxcfb0:dev=hdmi,1920x1080M@60,if=RGB24 oprofile.timer=1
-
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/rtFS,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/nfs rw nfsroot=192.168.1.101:/nfsroot/ltprtFS/,v3,tcp ip=192.168.1.100:255.255.254.0::eth0:off video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-setenv bootargs console=ttymxc1,115200 root=/dev/sda1 rw video=mxcfb0:dev=ldb,LDB-XGA,if=RGB565
-
-*******************************************************************************************************
-
-
-** full test case
-10GNIC  COMBOTEST EVTEST  GPIO  IPMI  MISC  PATA   PROVELOCK  SCU-S3    STRACE
-ACCELEROMETER  CPU-HOTPLUG  FAST-SYSCALL  HWRNG   IPv6   MMC   PCI  QBMAN   SENSORS  SyPI4
-bin CPUSETS   FLOATCONVERT  I2C   KGDBTS   MTD    PERFORMANCE   RAMFS    SERIALSYSRQ    USBBUS
-BOOTCHECK   DMA   FTRACE   IEEE1588  KMS   NETPERF  PKTGEN   RTC   SOFTWARE-RAID  USBHOST
-CAN   dTsec  GDB  INTERRUPT  KVM   OPROFILE  POWER-MANAGEMENT  RTTEST   SPI  WATCHDOG
-CF    ETHERNET   GDBSERVER   IO-expander  manual-demo  PAMU    PRAMFS   SATA  SRIO  WIRE1
-
-######################################################################################################
-
-* tmp info
+*** xlp_64 boot
+./runtest.sh -T 192.168.1.100 -P 4440
 ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-helinux-a0.dtb" -i 1
 ldapps -m smpload -f /bin/crypto_app -d "./cglk-cglfs-64helinux.dtb" -i 1
 ldapps -m smpload -f /bin/hybrid_nae_app -d "./cglk-cglfs-64helinux.dtb" -i 1
@@ -419,17 +453,6 @@ ldapps -m smpload -f /bin/regex_demo_app -d "./stdk-stdfs-helinux-a0.dtb" -i 1
 ldapps -m smpload -f /bin/dtr_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1
 
 
-
-/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-ccache=yes --enable-test --with-template=cpu/mips64_xlp,feature/hyperexec --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
-
-/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-ccache=yes --with-template=cpu/mips64_xlp,feature/hyperexec --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
-
- /lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux/../ldat/configure --enable-board=nlm_xlp_64_be --enable-kernel=standard --enable-rootfs=glibc_std --enable-jobs=16 --enable-force-add-depends=yes --with-layer=/folk/mzhao1/imx6/wrll-runtime-testing --with-template=feature/hyperexec,cpu/mips64_xlp --with-product-dir=/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/wrlinux
-
-mount -o nolock 128.224.158.206:/nfsroot/ /root/
-ldapps -m smpload -f /bin/hello_app -d "./stdk-stdfs-xlp3xx-helinux.dtb-hyperexec" -i 1
-withtemplate=cpu/mips64_xlp
-/lpg-build/cdc/fast_prod/wrlinux4.3/dvd_install/lx23h_10fa/wrlinux-4/layers/bsps/wrll-nlm_xlp_64_be/templates/board/nlm_xlp_64_be
 ? cpu/mips32_el
 ? cpu/mips64_el_n32
 
@@ -439,122 +462,70 @@ cpu/mips32_xlp ok
 cpu/mips64_eb_n32
 cpu/mips64_el
 
+** xilinx_zc702
+*** xilinx_zc702 compile
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb09_12sp/ 
+
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux-4/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std  --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-ldat-cache-dir=../../sstate-cache --with-toolchain-dir=wr-toolchain --enable-bootimage=ext3,tar.bz2 
+
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std  --enable-kernel=standard
+
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std  --enable-kernel=standard --enable-jobs=5 --with-product-dir=/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/layers/wr-bsps
+
+stdk stdfs bts
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-layer=/folk/mzhao1/wrll-runtime-testing-5.0/bts
+
+stdk stdfs bts+gdbserver
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-layer=/folk/mzhao1/wrll-runtime-testing-5.0/bts --with-template=feature/debug --with-toolchain-dir=wr-toolchain
 
 
-stdk-stdfs-kftp
-stdk-stdfs-ltp
+stdk stdfs kftp
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb09_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-layer=/folk/mzhao1/wrll-runtime-testing-5.0/kftp
 
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-layer=/folk/mzhao1/wrll-runtime-testing-5.0/kftp
 
-/folk/mzhao1/imx6/wrll-runtime-testing/templates/feature/bsp-test/linux/nlm_xlp_64_be-bts.cfg
+stdk stdfs pure
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-layer=/folk/mzhao1/wrll-runtime-testing-5.0/pure
 
-10GNIC/           COMBOTEST/        EVTEST/       GPIO/       IPMI/      MISC/    PATA/             PROVELOCK/        SCU-S3/           STRACE/           
-ACCELEROMETER/    CPU-HOTPLUG/      FAST-SYSCALL/ HWRNG/      IPv6/      MMC/     PCI/              QBMAN/            SENSORS/          SyPI4/            
-bin/              CPUSETS/          FLOATCONVERT/ I2C/        KGDBTS/    MTD/     PERFORMANCE/      RAMFS/            SERIALSYSRQ/      USBBUS/           
-BOOTCHECK/        DMA/              FTRACE/       IEEE1588/   KMS/       NETPERF/ PKTGEN/           RTC/              SOFTWARE-RAID/    USBHOST/          
-CAN/              dTsec/            GDB/          INTERRUPT/  KVM/       OPROFILE POWER-MANAGEMENT/ RTTEST/           SPI/              WATCHDOG/         
-CF/               ETHERNET/         GDBSERVER/    IO-expander manual-dem PAMU/    PRAMFS/           SATA/             SRIO/             WIRE1/
+stdk stdfs userspace
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --with-layer=/folk/mzhao1/wrll-runtime-testing-5.0/userspace
 
-hugepage
+stdk stdfs ltp posix
+/lpg-build/cdc/fast_prod/wrlinuxbasic-50/dvd_install/lb08_12sp/wrlinux-5/wrlinux/configure --enable-board=xilinx-zynq --enable-rootfs=glibc_std --enable-kernel=standard --enable-jobs=5 --enable-parallel-pkgbuilds=5 --enable-test 
 
-nlm_xlp_64_be board test case
+*** zc702 boot
+setenv serverip 192.168.1.100;setenv ipaddr 192.168.1.200;tftp 0x1000000 dtb;fdt addr 0x1000000;fdt print /chosen
+setenv bootargs console=ttyPS0,115200 ip=dhcp root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/zc702 
+setenv bootargs console=ttyPS0,115200 ip=192.168.1.200:192.168.1.1:192.168.1.1:255.255.254.0 root=/dev/nfs rw nfsroot=192.168.1.100:/nfsroot/zc702 
+setenv bootargs console=ttyPS0,115200 ip=128.224.159.25:128.224.158.1:128.224.158.1:255.255.254.0 root=/dev/nfs rw nfsroot=128.224.158.206:/nfsroot/zc702
 
+fdt chosen
+fdt print /chosen
+tftp 0x10600000 kernel;bootm 0x10600000 - 0x1000000
 
+setenv serverip 192.168.1.100;setenv ipaddr 192.168.1.200;tftp 0x1000000 dtb;tftp 0x10600000 kernel;bootm 0x10600000 - 0x1000000
 
-****standard kernel standard rootfs kftp**********************************************
-testcases/bsdjail                                                    [  PASS  ]
-testcases/cgroup                                                     [  PASS  ]
-testcases/dynamic-tick                                               [  PASS  ]
-testcases/fs                                                         [ FAILED ]
-testcases/ftrace                                                     [  PASS  ]
-testcases/hrt                                                        [  PASS  ]
-testcases/hugetlb                                                    [  PASS  ]
-testcases/kgdb                                                       [  PASS  ]
-testcases/lockapi                                                    [  PASS  ]
-testcases/lttng                                                      [  PASS  ]
-testcases/modprobe                                                   [  PASS  ]
-testcases/mpatrol-test                                               [  PASS  ]
-testcases/mutex_lock                                                 [  PASS  ]
-testcases/ocf                                                        [  PASS  ]
-testcases/oprofile-test                                              [  PASS  ]
-testcases/oscb                                                       [  PASS  ]
-testcases/perf-test                                                  [  PASS  ]
-testcases/pi-futex                                                   [  PASS  ]
-testcases/ptrace                                                     [ FAILED ]
-testcases/rb-futex                                                   [ FAILED ]
-testcases/tipc                                                       [ FAILED ]
-testcases/unionfs                                                    [  PASS  ]
-testcases/wrnote                                                     [  PASS  ]
+make kds
+vim arch/arm/boot/dts/zynq-zc702-sd.dts
+make zynq-zc702-sd.dtb
+build/linux-windriver-3.4-r0/linux-xilinx-zynq-standard-build/arch/arm/boot/zynq-zc702-sd.dtb
 
+./bitbake_build/tmp/work/armv7a-vfp-neon-wrs-linux-gnueabi/toolchain-wrappers-cross-1.0-r6/sysroot-destdir/buildarea2/mzhao1/stdk-stdfs-bts/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/armv7a-vfp-neon-wrs-linux-gnueabi/cortexa9t-neon-wrswrap-linux-gnueabi-gdb
 
+kernel path
+/buildarea2/mzhao1/stdk-stdfs-bts-gdbserver/bitbake_build/tmp/work/xilinx_zynq-wrs-linux-gnueabi/linux-windriver-3.4-r0/linux-xilinx-zynq-standard-build
 
+make -C build linux-windriver.distclean
+make -C build linux-windriver
+* full test case
+10GNIC  COMBOTEST EVTEST  GPIO  IPMI  MISC  PATA   PROVELOCK  SCU-S3    STRACE
+ACCELEROMETER  CPU-HOTPLUG  FAST-SYSCALL  HWRNG   IPv6   MMC   PCI  QBMAN   SENSORS  SyPI4
+bin CPUSETS   FLOATCONVERT  I2C   KGDBTS   MTD    PERFORMANCE   RAMFS    SERIALSYSRQ    USBBUS
+BOOTCHECK   DMA   FTRACE   IEEE1588  KMS   NETPERF  PKTGEN   RTC   SOFTWARE-RAID  USBHOST
+CAN   dTsec  GDB  INTERRUPT  KVM   OPROFILE  POWER-MANAGEMENT  RTTEST   SPI  WATCHDOG
+CF    ETHERNET   GDBSERVER   IO-expander  manual-demo  PAMU    PRAMFS   SATA  SRIO  WIRE1
 
+######################################################################################################
 
+* tmp info
 
-
-|new SATA test case
- /runtest.sh
-	PASS	device format
-	PASS	minor io
-
-
-
-
-
-	PASS	huge io
-	FAIL	dmesg Call Trace check post case
-	Tests Passed	: 6
-	Tests Failed	: 1
-	Tests Skiped	: 0
-	Tests Manual	: 0
-	Total Tested	: 7
-root@xlp:/opt/bts/testcases/SATA> 
-root@xlp:/opt/bts/testcases/SATA> 
-root@xlp:/opt/bts/testcases/SATA> 
-complete nlm_xlp_64_be 4.3 async FPTC
-
-defect:
-WIND00344962 	
-WIND00364441
-WIND00365094
-WIND00366129
-
-
-
-Prebuild Boot Login
-Source Build Boot Login
-Stripped Kernel Boo
-shutdown
-Configuration
-RPM Build
-Source Build
-README documentation test for BSP
-[BTS]Ethernet test script
-wrLtp
-KFTP
-Userspace Packages
-Load_Library
-Toolchain
-[obsolete]kgdbts
-[BTS]SerialSysrq
-[BTS]sched_clock implementation
-[BTS]bootcheck
-[BTS]float_convert
-BTS
-lmbench to validate bsp functionality
-wrPosix
-BTS]performance_test of dhrystone_whetstone
-L2cache
-I/O cache coherency
-GDB Server
-workbench KGDBoE (module_debug)
-workbench usermode auto test
-workbench analysis tool - codecoverage auto test
-workbench analysis tool - mpatrol auto test
-workbench analysis tool - oprofile auto test
-
-(0xffffffff81000000) Physical load address 
-(0xffffffffc1000000) Netlogic Linux kernel start address 
-
-
-email
-0xffffffff81000000,
